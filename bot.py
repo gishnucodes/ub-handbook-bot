@@ -10,8 +10,6 @@ import streamlit as st
 
 load_dotenv()
 
-os.environ["GOOGLE_API_KEY"] = 'AIzaSyCO_JGvibGVMWHZNI6mxv-qc2wmdChLABk'
-
 def load_file():
     md = MarkItDown()
     result = md.convert("grad-handbook-2024.pdf")
@@ -23,7 +21,7 @@ def get_vector_store(documents):
     # Initialize Gemini embeddings
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
     # Split the documents into chunks
-    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    text_splitter = CharacterTextSplitter(chunk_size=1500, chunk_overlap=0)
     # texts = text_splitter.split_texts(documents)
     docstest = text_splitter.create_documents(documents)
     # Create the vector store
@@ -39,7 +37,7 @@ def init_vector_store():
 from langchain.chains import RetrievalQA
 from langchain_google_genai import ChatGoogleGenerativeAI
 #%%
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro", google_api_key='AIzaSyCO_JGvibGVMWHZNI6mxv-qc2wmdChLABk')
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro")
 vectorstore = init_vector_store()
 qa_chain = RetrievalQA.from_chain_type(
     llm=llm,
